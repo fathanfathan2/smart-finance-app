@@ -1,0 +1,152 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(to bottom, #7cc0d8, #a6d3e0);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container */
+.container {
+  width: 320px;
+  padding: 20px;
+}
+
+/* Logo */
+.logo {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.logo-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Card */
+.card {
+  background: rgba(255,255,255,0.25);
+  padding: 18px;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+/* Title */
+.title {
+  text-align: center;
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+/* Input group */
+.input-group {
+  margin-bottom: 10px;
+}
+
+.label {
+  font-size: 12px;
+  margin-bottom: 3px;
+  display: block;
+}
+
+/* Input with icon */
+.input-box {
+  position: relative;
+}
+
+.input-box input {
+  width: 100%;
+  padding: 8px 35px 8px 10px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255,255,255,0.6);
+}
+
+/* Icon kanan */
+.icon-right {
+  position: absolute;
+  right: 10px;
+  top: 8px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Button */
+.btn {
+  width: 100%;
+  padding: 10px;
+  background: #1f7a4c;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Link kecil */
+.small-text {
+  text-align: right;
+  font-size: 11px;
+  color: #333;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+/* Divider */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 12px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #999;
+}
+
+.divider span {
+  margin: 0 10px;
+  font-size: 12px;
+}
+
+/* Google btn */
+.google-btn {
+  width: 100%;
+  padding: 9px;
+  border-radius: 8px;
+  border: none;
+  background: #ddd;
+  cursor: pointer;
+}
+
+/* Switch */
+.switch {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 12px;
+  cursor: pointer;
+  color: blue;
+}
+
+.eye-icon {
+  width: 16px;
+  height: 16px;
+}
