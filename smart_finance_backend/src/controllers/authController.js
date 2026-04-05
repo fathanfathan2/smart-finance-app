@@ -6,6 +6,7 @@ const register = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
+    // 1. Cek apakah email sudah ada
     const [existing] = await pool.query(
       'SELECT id FROM users WHERE email = ?',
       [email],
@@ -16,12 +17,16 @@ const register = async (req, res) => {
         .json({ status: 'error', message: 'Email sudah terdaftar.' });
     }
 
+    // 2. Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
+
+    // 3. Simpan user baru
     const [result] = await pool.query(
       'INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)',
       [name, email, hashedPassword, phone || null],
     );
 
+    // 4. Buat Token (Menggunakan secret dari .env)
     const token = jwt.sign({ id: result.insertId }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     });
@@ -29,7 +34,8 @@ const register = async (req, res) => {
     return res.status(201).json({
       status: 'success',
       message: 'Registrasi berhasil.',
-      data: { user: { id: result.insertId, name, email }, token },
+      user: { id: result.insertId, name, email }, // Data user di luar agar mudah dibaca frontend
+      token,
     });
   } catch (error) {
     console.error('Register error:', error);
@@ -43,9 +49,11 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
+    // 1. Cari user berdasarkan email
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [
       email,
     ]);
+
     if (rows.length === 0) {
       return res
         .status(401)
@@ -53,6 +61,8 @@ const login = async (req, res) => {
     }
 
     const user = rows[0];
+
+    // 2. Validasi password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res
@@ -60,23 +70,23 @@ const login = async (req, res) => {
         .json({ status: 'error', message: 'Email atau password salah.' });
     }
 
+    // 3. Buat Token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     });
 
+    // 4. Kirim Response (Struktur disamakan agar Frontend konsisten)
     return res.status(200).json({
       status: 'success',
       message: 'Login berhasil.',
-      data: {
-        user: {
-          id: user.id,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          photo_url: user.photo_url,
-        },
-        token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        photo_url: user.photo_url,
       },
+      token,
     });
   } catch (error) {
     console.error('Login error:', error);
@@ -88,11 +98,12 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
+    // req.user didapat dari middleware auth.js
     const [rows] = await pool.query(
       'SELECT id, name, email, phone, photo_url, created_at FROM users WHERE id = ?',
       [req.user.id],
     );
-    return res.status(200).json({ status: 'success', data: { user: rows[0] } });
+    return res.status(200).json({ status: 'success', user: rows[0] });
   } catch (error) {
     console.error('GetMe error:', error);
     return res
@@ -142,7 +153,7 @@ const updateProfile = async (req, res) => {
     return res.status(200).json({
       status: 'success',
       message: 'Profil berhasil diperbarui.',
-      data: { user: updated[0] },
+      user: updated[0],
     });
   } catch (error) {
     console.error('Update profile error:', error);
@@ -160,8 +171,8 @@ const changePassword = async (req, res) => {
     const [rows] = await pool.query('SELECT password FROM users WHERE id = ?', [
       userId,
     ]);
-    const isValid = await bcrypt.compare(old_password, rows[0].password);
 
+    const isValid = await bcrypt.compare(old_password, rows[0].password);
     if (!isValid) {
       return res
         .status(401)
@@ -184,5 +195,5 @@ const changePassword = async (req, res) => {
       .json({ status: 'error', message: 'Terjadi kesalahan server.' });
   }
 };
- 
+
 export { register, login, getMe, updateProfile, changePassword };

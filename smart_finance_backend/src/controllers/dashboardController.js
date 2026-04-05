@@ -4,10 +4,13 @@ const getDashboard = async (req, res) => {
   try {
     const userId = req.user.id;
 
+    const [userProfile] = await pool.query(
+      'SELECT name, email FROM users WHERE id = ?',
+      [userId],
+    );
+
     const [lastHealthCheck] = await pool.query(
-      `SELECT id, monthly_income, monthly_expenses, monthly_debt_payment,
-              debt_to_income_ratio, expense_to_income_ratio, emergency_fund_months,
-              status, score, created_at
+      `SELECT id, status, score, created_at
        FROM financial_health_checks
        WHERE user_id = ?
        ORDER BY created_at DESC
@@ -35,6 +38,7 @@ const getDashboard = async (req, res) => {
 
     return res.status(200).json({
       status: 'success',
+      user: userProfile[0] || { name: 'User' },
       data: {
         last_health_check: lastHealthCheck[0] || null,
         active_bookings: activeBookings,
@@ -54,24 +58,19 @@ const generateDailyTip = (status) => {
   const tips = {
     Sehat: [
       'Pertahankan kondisi keuangan Anda. Pertimbangkan untuk mulai berinvestasi di reksa dana.',
-      'Keuangan Anda sehat. Tingkatkan dana darurat hingga 6 bulan pengeluaran.',
-      'Coba alokasikan 20% penghasilan untuk investasi jangka panjang.',
+      'Tingkatkan dana darurat hingga 6 bulan pengeluaran.',
     ],
     Rawan: [
       'Usahakan cicilan tidak lebih dari 30% dari penghasilan Anda.',
-      'Kurangi pengeluaran tidak esensial dan fokus lunasi utang tertinggi terlebih dahulu.',
-      'Coba metode budgeting 50/30/20: 50% kebutuhan, 30% keinginan, 20% tabungan.',
+      'Kurangi pengeluaran tidak esensial sekarang.',
     ],
     Kritis: [
-      'Kondisi kritis. Segera konsultasikan keuangan Anda dengan ahli.',
-      'Hindari menambah utang baru dalam kondisi ini. Fokus pada restrukturisasi.',
-      'Cari sumber penghasilan tambahan untuk membantu menutup cicilan.',
+      'Segera konsultasikan keuangan Anda dengan ahli.',
+      'Hindari menambah utang baru dalam kondisi ini.',
     ],
   };
-
   const statusTips = tips[status] || tips['Rawan'];
-  const randomIndex = Math.floor(Math.random() * statusTips.length);
-  return statusTips[randomIndex];
+  return statusTips[Math.floor(Math.random() * statusTips.length)];
 };
 
 export { getDashboard };
