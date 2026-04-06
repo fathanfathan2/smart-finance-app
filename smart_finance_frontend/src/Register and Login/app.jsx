@@ -102,7 +102,7 @@ function Login() {
 /* REGISTER */
 function Register() {
   const [show, setShow] = useState(false);
-  const [nama, setNama] = useState(''); // State tetap 'nama' agar konsisten dengan input kamu
+  const [nama, setNama] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -115,21 +115,19 @@ function Register() {
         headers: {
           'Content-Type': 'application/json',
         },
-        // PERBAIKAN: Mengirim 'name' (bahasa Inggris) ke Back-End
+
         body: JSON.stringify({
           name: nama,
           email: email,
           password: password,
         }),
       });
-
       const data = await response.json();
 
       if (response.ok) {
         alert('Registrasi Berhasil! Silakan Login.');
         window.location.reload();
       } else {
-        // Jika gagal, tampilkan pesan spesifik dari Back-End
         console.log('Detail Error:', data);
         alert(data.message || 'Validasi Gagal');
       }

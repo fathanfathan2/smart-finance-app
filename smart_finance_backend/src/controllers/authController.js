@@ -6,7 +6,6 @@ const register = async (req, res) => {
   try {
     const { name, email, password, phone } = req.body;
 
-    // 1. Cek apakah email sudah ada
     const [existing] = await pool.query(
       'SELECT id FROM users WHERE email = ?',
       [email],
@@ -17,16 +16,13 @@ const register = async (req, res) => {
         .json({ status: 'error', message: 'Email sudah terdaftar.' });
     }
 
-    // 2. Hash password
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    // 3. Simpan user baru
     const [result] = await pool.query(
       'INSERT INTO users (name, email, password, phone) VALUES (?, ?, ?, ?)',
       [name, email, hashedPassword, phone || null],
     );
 
-    // 4. Buat Token (Menggunakan secret dari .env)
     const token = jwt.sign({ id: result.insertId }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     });
@@ -34,7 +30,7 @@ const register = async (req, res) => {
     return res.status(201).json({
       status: 'success',
       message: 'Registrasi berhasil.',
-      user: { id: result.insertId, name, email }, // Data user di luar agar mudah dibaca frontend
+      user: { id: result.insertId, name, email },
       token,
     });
   } catch (error) {
@@ -49,7 +45,6 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // 1. Cari user berdasarkan email
     const [rows] = await pool.query('SELECT * FROM users WHERE email = ?', [
       email,
     ]);
@@ -62,7 +57,6 @@ const login = async (req, res) => {
 
     const user = rows[0];
 
-    // 2. Validasi password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
       return res
@@ -70,12 +64,10 @@ const login = async (req, res) => {
         .json({ status: 'error', message: 'Email atau password salah.' });
     }
 
-    // 3. Buat Token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES_IN || '7d',
     });
 
-    // 4. Kirim Response (Struktur disamakan agar Frontend konsisten)
     return res.status(200).json({
       status: 'success',
       message: 'Login berhasil.',
@@ -98,7 +90,6 @@ const login = async (req, res) => {
 
 const getMe = async (req, res) => {
   try {
-    // req.user didapat dari middleware auth.js
     const [rows] = await pool.query(
       'SELECT id, name, email, phone, photo_url, created_at FROM users WHERE id = ?',
       [req.user.id],
