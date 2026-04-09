@@ -14,7 +14,8 @@ const EducationPage = () => {
       title: '5 Cara Melunasi Hutang dengan Cepat',
       category: 'Hutang',
       readTime: '5 min read',
-      image: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=400',
+      image:
+        'https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=400',
     },
     {
       id: 2,
@@ -22,7 +23,7 @@ const EducationPage = () => {
       category: 'Investasi',
       readTime: '8 min read',
       image:
-        'https://images.unsplash.com/photo-1611974714656-718f3a0f9bb7?w=400',
+        'https://images.unsplash.com/photo-1590283603385-17ffb3a7f29f?auto=format&fit=crop&q=80&w=400',
     },
     {
       id: 3,
@@ -30,7 +31,7 @@ const EducationPage = () => {
       category: 'Tabungan',
       readTime: '4 min read',
       image:
-        'https://images.unsplash.com/photo-1579621970795-87facc2f976d?w=400',
+        'https://images.unsplash.com/photo-1579621970795-87facc2f976d?auto=format&fit=crop&q=80&w=400',
     },
     {
       id: 4,
@@ -38,7 +39,7 @@ const EducationPage = () => {
       category: 'Pajak',
       readTime: '6 min read',
       image:
-        'https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?w=400',
+        'https://images.unsplash.com/photo-1586486855514-8c633cc6fd38?auto=format&fit=crop&q=80&w=400',
     },
   ];
 
@@ -76,7 +77,11 @@ const EducationPage = () => {
           <div className="article-card" key={article.id}>
             <div
               className="article-image"
-              style={{ backgroundImage: `url(${article.image})` }}
+              style={{
+                backgroundImage: `url(${article.image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
             >
               <span className="category-tag">{article.category}</span>
             </div>

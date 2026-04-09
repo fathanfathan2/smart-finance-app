@@ -1,13 +1,18 @@
-/* Reset Global untuk halaman Auth */
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
 .auth-wrapper,
 .auth-wrapper * {
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
-  margin: 0;
-  padding: 0;
 }
 
-/* Background biru muda penuh layar */
 .auth-wrapper {
   background-color: #a2d2df;
   min-height: 100vh;
@@ -18,174 +23,128 @@
   padding: 20px;
 }
 
-/* Kontainer utama yang membatasi lebar konten */
 .auth-container {
   width: 100%;
-  max-width: 400px;
+  max-width: 360px;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
 
-/* Logo Section */
 .auth-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   margin-bottom: 25px;
 }
 
-/* Memperbaiki logo yang raksasa di gambar ke-2 */
-.auth-logo .logo-icon {
-  width: 32px;
-  height: 32px;
-  object-fit: contain; /* Agar gambar tidak gepeng */
+.logo-img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .auth-logo span {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: #1a1a1a;
 }
 
-/* Kartu Utama (Login/Register) */
 .auth-card {
-  background: rgba(255, 255, 255, 0.6);
-  backdrop-filter: blur(8px); /* Efek kaca transparan */
-  padding: 35px 25px;
-  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(10px);
+  padding: 30px 20px;
+  border-radius: 20px;
   width: 100%;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
 }
 
-/* Judul di dalam kartu */
 .auth-title {
   font-size: 20px;
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
-  color: #333;
 }
 
-/* Pembungkus Form (isinya agar vertikal) */
 .auth-form-content {
   display: flex;
   flex-direction: column;
-  gap: 15px; /* Jarak antar input */
+  gap: 15px;
   width: 100%;
 }
 
-/* Input Group (Label + Input) */
 .auth-input-group {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  width: 100%;
 }
 
 .auth-label {
   font-size: 14px;
   font-weight: 600;
-  color: #444;
 }
 
-/* Input Box & Mata Password */
 .auth-input-box {
   position: relative;
-  width: 100%;
 }
 
 .auth-input-box input {
   width: 100%;
-  padding: 12px 15px;
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  background: #fff;
+  padding: 10px 40px 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
   font-size: 14px;
-  outline: none;
-  transition: border-color 0.3s;
-}
-
-.auth-input-box input:focus {
-  border-color: #2d6a4f; /* Warna hijau saat diklik */
 }
 
 .auth-icon-eye {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
-  display: flex;
 }
 
 .auth-icon-eye img {
-  width: 20px;
-  opacity: 0.5;
+  width: 18px;
+  opacity: 0.6;
 }
 
-/* Lupa Password */
 .auth-small-text {
   font-size: 12px;
-  color: #666;
   text-align: right;
-  margin-top: -5px;
-  cursor: pointer;
+  color: #666;
 }
 
-/* Action Buttons Group */
 .auth-action-group {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 15px;
-  width: 100%;
+  margin-top: 10px;
 }
 
-/* Styling Tombol */
 .auth-btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
+  padding: 12px;
+  border-radius: 10px;
   border: none;
   font-weight: 600;
-  font-size: 15px;
   cursor: pointer;
-  transition:
-    background 0.3s,
-    transform 0.1s;
-}
-
-.auth-btn:active {
-  transform: scale(0.98);
 }
 
 .auth-btn-primary {
-  background-color: #2d6a4f; /* Warna hijau tombol Masuk */
+  background-color: #2d6a4f;
   color: white;
-}
-
-.auth-btn-primary:hover {
-  background-color: #1b4332;
 }
 
 .auth-btn-google {
   background-color: #fff;
-  color: #333;
   border: 1px solid #ddd;
 }
 
-.auth-btn-google:hover {
-  background-color: #f5f5f5;
-}
-
-/* Divider "atau" */
 .auth-divider {
   display: flex;
   align-items: center;
   text-align: center;
   color: #888;
-  margin: 5px 0;
 }
 
 .auth-divider::before,
@@ -198,22 +157,14 @@
 .auth-divider span {
   padding: 0 10px;
   font-size: 11px;
-  text-transform: uppercase;
 }
 
-/* Switch (Daftar/Login) di bawah kartu */
 .auth-switch-container {
-  margin-top: 25px;
-  text-align: center;
+  margin-top: 20px;
 }
 
 .auth-switch-text {
-  color: #0000ff; /* Warna biru link */
+  color: blue;
   cursor: pointer;
   font-size: 14px;
-  font-weight: 500;
-}
-
-.auth-switch-text:hover {
-  text-decoration: underline;
 }

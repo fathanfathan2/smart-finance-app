@@ -1,35 +1,102 @@
 .profile-container {
   padding: 20px;
-  background-color: #f0f8ff;
+  background-color: #f8fafc; /* Warna lebih clean */
   min-height: 100vh;
+  max-width: 500px; /* Cocok untuk mobile-view Figma */
+  margin: 0 auto;
 }
+
+.health-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.back-button {
+  background: white;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .user-info-card {
   background: white;
   border-radius: 20px;
   padding: 25px;
   text-align: center;
   margin-bottom: 20px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
+
 .profile-img {
-  width: 80px;
-  height: 80px;
+  width: 85px;
+  height: 85px;
   border-radius: 50%;
-  background: #cbd5e1;
+  background: #2d6a4f; /* Warna brand */
   margin: 0 auto 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+
+.profile-initial {
+  color: white;
+  font-size: 32px;
+  font-weight: bold;
+}
+
+.edit-profile-btn {
+  margintop: 15px;
+  padding: 8px 20px;
+  border-radius: 20px;
+  border: 1px solid #2d6a4f;
+  background: transparent;
+  color: #2d6a4f;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.edit-profile-btn:hover {
+  background: #f0fdf4;
+}
+
 .menu-list {
   background: white;
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
+
 .menu-item {
-  padding: 15px 20px;
+  padding: 18px 20px;
   display: flex;
   justify-content: space-between;
   border-bottom: 1px solid #f1f5f9;
   cursor: pointer;
+  transition: 0.2s;
 }
-.logout {
+
+.menu-item:hover {
+  background-color: #f8fafc;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.logout-item {
   color: #ef4444;
+}
+
+.logout-item span {
   font-weight: bold;
 }

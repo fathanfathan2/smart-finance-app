@@ -11,14 +11,19 @@ import Dashboard from '../dashboard/dashboard.jsx';
 import FinancialHealth from '../financialHealth/financialHealth.jsx';
 import ConsultationList from '../consultation/consultationList.jsx';
 import BookingConsultation from '../consultation/bookingConsultation.jsx';
-import InsightDashboard from '../insight/insightDashboard.jsx';
 import EducationPage from '../education/educationPage.jsx';
+import UserProfile from '../profile/userProfile.jsx';
+
+import logo from '../assets/bar-chart.png';
+import hideIcon from '../assets/hide.png';
+import viewIcon from '../assets/view.png';
 
 function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
   const handleAuth = async (e) => {
@@ -60,6 +65,7 @@ function AuthPage() {
     <div className="auth-wrapper">
       <div className="auth-container">
         <div className="auth-logo">
+          <img src={logo} alt="logo" className="logo-img" />
           <span>Smart Finance</span>
         </div>
 
@@ -99,12 +105,18 @@ function AuthPage() {
               <label className="auth-label">Kata Sandi</label>
               <div className="auth-input-box">
                 <input
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                 />
+                <div
+                  className="auth-icon-eye"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  <img src={showPassword ? hideIcon : viewIcon} alt="toggle" />
+                </div>
               </div>
             </div>
 
@@ -150,8 +162,8 @@ export default function App() {
         <Route path="/health-check" element={<FinancialHealth />} />
         <Route path="/consultation" element={<ConsultationList />} />
         <Route path="/booking/:name" element={<BookingConsultation />} />
-        <Route path="/insight" element={<InsightDashboard />} />
         <Route path="/education" element={<EducationPage />} />
+        <Route path="/profile" element={<UserProfile />} />
       </Routes>
     </Router>
   );

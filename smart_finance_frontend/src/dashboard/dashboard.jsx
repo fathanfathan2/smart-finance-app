@@ -4,12 +4,10 @@ import './dashboard.css';
 
 import rect5 from '../assets/Rectangle5.png';
 import rect6 from '../assets/Rectangle6.png';
-import rect7 from '../assets/Rectangle7.png';
 import rect8 from '../assets/Rectangle8.png';
 import accountIcon from '../assets/account.png';
 
 function Dashboard() {
-  const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('User');
   const navigate = useNavigate();
 
@@ -44,12 +42,7 @@ function Dashboard() {
 
   return (
     <div className="db-main-wrapper">
-      <Header name={userName} toggle={() => setOpen(!open)} />
-      <Sidebar open={open} />
-
-      {open && (
-        <div className="db-overlay" onClick={() => setOpen(false)}></div>
-      )}
+      <Header name={userName} />
 
       <div className="db-content-container">
         <div className="db-grid">
@@ -74,73 +67,24 @@ function Dashboard() {
             btn="Mulai Konsultan"
             link="/consultation"
           />
-          <Card
-            img={rect7}
-            title="Insight Data"
-            desc="Lihat analisis keuanganmu"
-            btn="Lihat Insight"
-            link="/insight"
-          />
         </div>
       </div>
     </div>
   );
 }
 
-function Header({ toggle, name }) {
-  const navigate = useNavigate();
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    navigate('/');
-  };
-
+function Header({ name }) {
   return (
     <div className="db-header">
-      <div className="db-burger" onClick={toggle}>
-        ☰
-      </div>
       <div className="db-header-info">
         <h2 className="db-welcome-title">Halo, {name}</h2>
         <p className="db-welcome-subtitle">Selamat datang kembali!</p>
       </div>
       <div className="db-profile-section">
-        <button onClick={handleLogout} className="db-logout-btn">
-          Logout
-        </button>
         <Link to="/profile">
           <img src={accountIcon} className="db-profile-img" alt="Profile" />
         </Link>
       </div>
-    </div>
-  );
-}
-
-function Sidebar({ open }) {
-  return (
-    <div className={`db-sidebar ${open ? 'active' : ''}`}>
-      <div className="db-sidebar-header">
-        <h3>Menu Utama</h3>
-      </div>
-      <nav className="db-sidebar-nav">
-        <Link to="/dashboard" className="db-nav-item">
-          🏠 Beranda
-        </Link>
-        <Link to="/education" className="db-nav-item">
-          📚 Edukasi
-        </Link>
-        <Link to="/health-check" className="db-nav-item">
-          📊 Health Check
-        </Link>
-        <Link to="/consultation" className="db-nav-item">
-          💬 Konsultasi
-        </Link>
-        <Link to="/insight" className="db-nav-item">
-          📈 Insight
-        </Link>
-        <Link to="/profile" className="db-nav-item">
-          👤 Profil
-        </Link>
-      </nav>
     </div>
   );
 }
