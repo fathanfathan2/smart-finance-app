@@ -120,19 +120,9 @@ function AuthPage() {
               </div>
             </div>
 
-            {isLogin && <p className="auth-small-text">Lupa kata sandi?</p>}
-
             <div className="auth-action-group">
               <button type="submit" className="auth-btn auth-btn-primary">
                 {isLogin ? 'Masuk' : 'Daftar Sekarang'}
-              </button>
-
-              <div className="auth-divider">
-                <span>atau</span>
-              </div>
-
-              <button type="button" className="auth-btn auth-btn-google">
-                Masuk dengan Google
               </button>
             </div>
           </form>
