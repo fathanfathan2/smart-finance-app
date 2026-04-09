@@ -1,193 +1,158 @@
 import React, { useState } from 'react';
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useNavigate,
+} from 'react-router-dom';
+import './style.css';
 
-import barChart from '../assets/bar-chart.png';
-import hideIcon from '../assets/hide.png';
-import viewIcon from '../assets/view.png';
+import Dashboard from '../dashboard/dashboard.jsx';
+import FinancialHealth from '../financialHealth/financialHealth.jsx';
+import ConsultationList from '../consultation/consultationList.jsx';
+import BookingConsultation from '../consultation/bookingConsultation.jsx';
+import InsightDashboard from '../insight/insightDashboard.jsx';
+import EducationPage from '../education/educationPage.jsx';
 
-function App() {
+function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  const navigate = useNavigate();
+
+  const handleAuth = async (e) => {
+    e.preventDefault();
+    const endpoint = isLogin ? 'login' : 'register';
+
+    try {
+      const response = await fetch(
+        `http://localhost:3000/api/auth/${endpoint}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(
+            isLogin ? { email, password } : { name, email, password },
+          ),
+        },
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        if (isLogin) {
+          localStorage.setItem('token', result.token || result.data?.token);
+          navigate('/dashboard');
+        } else {
+          alert('Registrasi berhasil, silakan login!');
+          setIsLogin(true);
+        }
+      } else {
+        alert(result.message || 'Proses gagal');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Koneksi ke server gagal!');
+    }
+  };
 
   return (
-    <div className="container">
-      <div className="logo">
-        <img src={barChart} alt="Logo" className="logo-icon" />
-        <span>Smart Finance</span>
-      </div>
+    <div className="auth-wrapper">
+      <div className="auth-container">
+        <div className="auth-logo">
+          <span>Smart Finance</span>
+        </div>
 
-      <div className="card">{isLogin ? <Login /> : <Register />}</div>
+        <div className="auth-card">
+          <h2 className="auth-title">{isLogin ? 'Masuk' : 'Daftar Akun'}</h2>
 
-      <div className="switch" onClick={() => setIsLogin(!isLogin)}>
-        {isLogin ? 'Belum punya akun? Daftar' : 'Sudah punya akun? Login'}
+          <form className="auth-form-content" onSubmit={handleAuth}>
+            {!isLogin && (
+              <div className="auth-input-group">
+                <label className="auth-label">Nama Lengkap</label>
+                <div className="auth-input-box">
+                  <input
+                    type="text"
+                    placeholder="Masukkan nama Anda"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                  />
+                </div>
+              </div>
+            )}
+
+            <div className="auth-input-group">
+              <label className="auth-label">Email</label>
+              <div className="auth-input-box">
+                <input
+                  type="email"
+                  placeholder="contoh@gmail.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="auth-input-group">
+              <label className="auth-label">Kata Sandi</label>
+              <div className="auth-input-box">
+                <input
+                  type="password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+              </div>
+            </div>
+
+            {isLogin && <p className="auth-small-text">Lupa kata sandi?</p>}
+
+            <div className="auth-action-group">
+              <button type="submit" className="auth-btn auth-btn-primary">
+                {isLogin ? 'Masuk' : 'Daftar Sekarang'}
+              </button>
+
+              <div className="auth-divider">
+                <span>atau</span>
+              </div>
+
+              <button type="button" className="auth-btn auth-btn-google">
+                Masuk dengan Google
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <div className="auth-switch-container">
+          <span
+            className="auth-switch-text"
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin
+              ? 'Belum punya akun? Daftar di sini'
+              : 'Sudah punya akun? Login di sini'}
+          </span>
+        </div>
       </div>
     </div>
   );
 }
 
-/* LOGIN */
-function Login() {
-  const [show, setShow] = useState(false);
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleLogin = async () => {
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL;
-
-      const response = await fetch(`${apiUrl}/login`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        localStorage.setItem('token', data.token);
-        window.location.href = '/src/dashboard/dashboard.html';
-      } else {
-        alert(data.message || 'Login Gagal!');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Koneksi ke server gagal. Pastikan Back-End sudah menyala!');
-    }
-  };
-
+export default function App() {
   return (
-    <>
-      <div className="title">Selamat datang kembali</div>
-
-      <div className="input-group">
-        <label className="label">Email</label>
-        <div className="input-box">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="input-group">
-        <label className="label">Password</label>
-        <div className="input-box">
-          <input
-            type={show ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span className="icon-right" onClick={() => setShow(!show)}>
-            <img src={show ? hideIcon : viewIcon} className="eye-icon" />
-          </span>
-        </div>
-      </div>
-
-      <div className="small-text">Lupa password?</div>
-
-      <button onClick={handleLogin} className="btn">
-        Masuk
-      </button>
-
-      <div className="divider">
-        <span>atau</span>
-      </div>
-
-      <button className="google-btn">Login dengan Google</button>
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<AuthPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/health-check" element={<FinancialHealth />} />
+        <Route path="/consultation" element={<ConsultationList />} />
+        <Route path="/booking/:name" element={<BookingConsultation />} />
+        <Route path="/insight" element={<InsightDashboard />} />
+        <Route path="/education" element={<EducationPage />} />
+      </Routes>
+    </Router>
   );
 }
-
-/* REGISTER */
-function Register() {
-  const [show, setShow] = useState(false);
-  const [nama, setNama] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-
-  const handleRegister = async () => {
-    try {
-      const apiUrl = import.meta.env.VITE_API_URL;
-
-      const response = await fetch(`${apiUrl}/register`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-
-        body: JSON.stringify({
-          name: nama,
-          email: email,
-          password: password,
-        }),
-      });
-      const data = await response.json();
-
-      if (response.ok) {
-        alert('Registrasi Berhasil! Silakan Login.');
-        window.location.reload();
-      } else {
-        console.log('Detail Error:', data);
-        alert(data.message || 'Validasi Gagal');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('Gagal terhubung ke server.');
-    }
-  };
-
-  return (
-    <>
-      <div className="title">Buat Akun Baru</div>
-
-      <div className="input-group">
-        <label className="label">Nama Lengkap</label>
-        <div className="input-box">
-          <input
-            type="text"
-            value={nama}
-            onChange={(e) => setNama(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="input-group">
-        <label className="label">Email</label>
-        <div className="input-box">
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-      </div>
-
-      <div className="input-group">
-        <label className="label">Password</label>
-        <div className="input-box">
-          <input
-            type={show ? 'text' : 'password'}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <span className="icon-right" onClick={() => setShow(!show)}>
-            <img src={show ? hideIcon : viewIcon} className="eye-icon" />
-          </span>
-        </div>
-      </div>
-
-      <button onClick={handleRegister} className="btn">
-        Daftar
-      </button>
-
-      <div className="divider">
-        <span>atau</span>
-      </div>
-
-      <button className="google-btn">Login dengan Google</button>
-    </>
-  );
-}
-
-export default App;

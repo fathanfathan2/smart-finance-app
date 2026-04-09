@@ -1,0 +1,129 @@
+.consultation-container {
+  padding: 20px 5%;
+  background-color: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Poppins', sans-serif;
+}
+
+.consultation-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 25px;
+}
+
+.back-btn-circle {
+  background: white;
+  border: 1px solid #e2e8f0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.back-btn-circle:hover {
+  background: #f1f5f9;
+}
+
+.search-wrapper {
+  margin-bottom: 25px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 20px;
+  border-radius: 15px;
+  border: 1.5px solid #e2e8f0;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: #2d6a4f;
+  box-shadow: 0 0 0 4px rgba(45, 106, 79, 0.1);
+}
+
+.consultant-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.consultant-card {
+  background: white;
+  border-radius: 20px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
+  transition: 0.3s;
+}
+
+.consultant-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.avatar-box {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #334155;
+  margin-right: 18px;
+}
+
+.consultant-info {
+  flex: 1;
+}
+
+.consultant-info h4 {
+  margin: 0;
+  font-size: 17px;
+  color: #1e293b;
+}
+
+.consultant-info p {
+  margin: 4px 0;
+  font-size: 13px;
+  color: #64748b;
+}
+
+.rating-tag {
+  color: #f59e0b;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.select-btn {
+  padding: 10px 20px;
+  background: #2d6a4f;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.select-btn:hover {
+  background: #1e4d38;
+}
+
+.no-result {
+  text-align: center;
+  color: #94a3b8;
+  margin-top: 40px;
+}

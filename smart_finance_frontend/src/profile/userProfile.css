@@ -1,0 +1,35 @@
+.profile-container {
+  padding: 20px;
+  background-color: #f0f8ff;
+  min-height: 100vh;
+}
+.user-info-card {
+  background: white;
+  border-radius: 20px;
+  padding: 25px;
+  text-align: center;
+  margin-bottom: 20px;
+}
+.profile-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: #cbd5e1;
+  margin: 0 auto 15px;
+}
+.menu-list {
+  background: white;
+  border-radius: 16px;
+  overflow: hidden;
+}
+.menu-item {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+  cursor: pointer;
+}
+.logout {
+  color: #ef4444;
+  font-weight: bold;
+}

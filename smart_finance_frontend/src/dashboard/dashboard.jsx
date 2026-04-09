@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ReactDOM from 'react-dom/client';
+import { Link, useNavigate } from 'react-router-dom';
 import './dashboard.css';
 
 import rect5 from '../assets/Rectangle5.png';
@@ -8,19 +8,19 @@ import rect7 from '../assets/Rectangle7.png';
 import rect8 from '../assets/Rectangle8.png';
 import accountIcon from '../assets/account.png';
 
-function App() {
+function Dashboard() {
   const [open, setOpen] = useState(false);
   const [userName, setUserName] = useState('User');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/');
+        return;
+      }
       try {
-        const token = localStorage.getItem('token');
-        if (!token) {
-          window.location.href = '/';
-          return;
-        }
-
         const response = await fetch('http://localhost:3000/api/dashboard', {
           method: 'GET',
           headers: {
@@ -28,93 +28,88 @@ function App() {
             'Content-Type': 'application/json',
           },
         });
-
         const result = await response.json();
-
         if (response.ok) {
           setUserName(result.user?.name || 'User');
         } else {
           localStorage.removeItem('token');
-          window.location.href = '/';
+          navigate('/');
         }
       } catch (error) {
         console.error('Fetch error:', error);
       }
     };
-
     fetchProfile();
-  }, []);
+  }, [navigate]);
 
   return (
-    <>
+    <div className="db-main-wrapper">
       <Header name={userName} toggle={() => setOpen(!open)} />
       <Sidebar open={open} />
-      {open && <div className="overlay" onClick={() => setOpen(false)}></div>}
-      <div className="content-container">
-        <Card
-          img={rect5}
-          title="Edukasi Finansial"
-          desc="Belajar dari artikel keuangan"
-          btn="Lihat Artikel"
-        />
-        <Card
-          img={rect6}
-          title="Financial Health Check"
-          desc="Cek kesehatan keuanganmu"
-          btn="Mulai Tes"
-        />
-        <Card
-          img={rect8}
-          title="Konsultasi Keuangan"
-          desc="Bicara dengan konsultan"
-          btn="Mulai Konsultan"
-        />
-        <Card
-          img={rect7}
-          title="Insight Data"
-          desc="Lihat analisis keuanganmu"
-          btn="Lihat Insight"
-        />
+
+      {open && (
+        <div className="db-overlay" onClick={() => setOpen(false)}></div>
+      )}
+
+      <div className="db-content-container">
+        <div className="db-grid">
+          <Card
+            img={rect5}
+            title="Edukasi Finansial"
+            desc="Belajar dari artikel keuangan"
+            btn="Lihat Artikel"
+            link="/education"
+          />
+          <Card
+            img={rect6}
+            title="Financial Health Check"
+            desc="Cek kesehatan keuanganmu"
+            btn="Mulai Tes"
+            link="/health-check"
+          />
+          <Card
+            img={rect8}
+            title="Konsultasi Keuangan"
+            desc="Bicara dengan konsultan"
+            btn="Mulai Konsultan"
+            link="/consultation"
+          />
+          <Card
+            img={rect7}
+            title="Insight Data"
+            desc="Lihat analisis keuanganmu"
+            btn="Lihat Insight"
+            link="/insight"
+          />
+        </div>
       </div>
-    </>
+    </div>
   );
 }
 
 function Header({ toggle, name }) {
+  const navigate = useNavigate();
   const handleLogout = () => {
     localStorage.removeItem('token');
-    window.location.href = '/';
+    navigate('/');
   };
+
   return (
-    <div className="header">
-      <div className="burger" onClick={toggle}>
+    <div className="db-header">
+      <div className="db-burger" onClick={toggle}>
         ☰
       </div>
-      <div className="header-text">
-        <div className="title">
-          <b>Halo, {name}</b>
-        </div>
-        <div className="subtitle">Selamat datang kembali!</div>
+      <div className="db-header-info">
+        <h2 className="db-welcome-title">Halo, {name}</h2>
+        <p className="db-welcome-subtitle">Selamat datang kembali!</p>
       </div>
-      <div
-        className="profile-container"
-        style={{ display: 'flex', alignItems: 'center', gap: '15px' }}
-      >
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: '5px 10px',
-            borderRadius: '5px',
-            border: 'none',
-            backgroundColor: '#ff4d4d',
-            color: 'white',
-            cursor: 'pointer',
-            fontSize: '12px',
-          }}
-        >
+      <div className="db-profile-section">
+        <button onClick={handleLogout} className="db-logout-btn">
           Logout
         </button>
-        <img src={accountIcon} className="profile" alt="Profile" />
+        <Link to="/profile">
+          <img src={accountIcon} className="db-profile-img" alt="Profile" />
+        </Link>
       </div>
     </div>
   );
@@ -122,41 +117,49 @@ function Header({ toggle, name }) {
 
 function Sidebar({ open }) {
   return (
-    <div className={`sidebar ${open ? 'active' : ''}`}>
-      <div className="sidebar-header">
-        <h3>Menu</h3>
+    <div className={`db-sidebar ${open ? 'active' : ''}`}>
+      <div className="db-sidebar-header">
+        <h3>Menu Utama</h3>
       </div>
-      <div className="sidebar-menu">
-        <p>🏠 Beranda</p>
-        <p>📚 Edukasi</p>
-        <p>📊 Health Check</p>
-        <p>💬 Konsultasi</p>
-        <p>📈 Insight</p>
-      </div>
+      <nav className="db-sidebar-nav">
+        <Link to="/dashboard" className="db-nav-item">
+          🏠 Beranda
+        </Link>
+        <Link to="/education" className="db-nav-item">
+          📚 Edukasi
+        </Link>
+        <Link to="/health-check" className="db-nav-item">
+          📊 Health Check
+        </Link>
+        <Link to="/consultation" className="db-nav-item">
+          💬 Konsultasi
+        </Link>
+        <Link to="/insight" className="db-nav-item">
+          📈 Insight
+        </Link>
+        <Link to="/profile" className="db-nav-item">
+          👤 Profil
+        </Link>
+      </nav>
     </div>
   );
 }
 
-function Card({ img, title, desc, btn }) {
+function Card({ img, title, desc, btn, link }) {
   return (
-    <div className="card">
-      <img src={img} alt={title} />
-      <div className="card-content">
-        <div className="card-title">{title}</div>
-        <div className="card-desc">{desc}</div>
-        <button className="card-btn">{btn}</button>
+    <div className="db-card">
+      <div className="db-card-image">
+        <img src={img} alt={title} />
+      </div>
+      <div className="db-card-body">
+        <h3 className="db-card-title">{title}</h3>
+        <p className="db-card-desc">{desc}</p>
+        <Link to={link}>
+          <button className="db-card-btn">{btn}</button>
+        </Link>
       </div>
     </div>
   );
 }
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
-}
-
-export default App;
+export default Dashboard;
