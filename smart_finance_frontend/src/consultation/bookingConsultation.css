@@ -1,15 +1,59 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .booking-container {
-  padding: 20px 5%;
   background-color: #f8fafc;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Header tetap statis */
 .booking-header {
   display: flex;
   align-items: center;
+  padding: 20px 5%;
   gap: 15px;
-  margin-bottom: 25px;
+  background-color: #f8fafc;
+  position: relative;
+  z-index: 10;
+}
+
+/* Wrapper konten dengan animasi */
+.booking-content-wrapper {
+  padding: 0 5% 40px 5%;
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+.back-btn-circle {
+  background: white;
+  border: 1px solid #e2e8f0;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.back-btn-circle:hover {
+  background: #f1f5f9;
 }
 
 .booking-card {
@@ -60,6 +104,7 @@
   border: 1.5px solid #e2e8f0;
   font-family: inherit;
   outline: none;
+  display: block;
 }
 
 .time-grid {
@@ -76,6 +121,10 @@
   cursor: pointer;
   font-size: 13px;
   transition: 0.2s;
+}
+
+.time-btn:hover:not(.active) {
+  background: #f1f5f9;
 }
 
 .time-btn.active {
@@ -123,4 +172,9 @@
 
 .confirm-btn:hover {
   background: #1e4d38;
+}
+
+.confirm-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
 }

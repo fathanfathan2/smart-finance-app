@@ -1,15 +1,41 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .financial-health-container {
-  padding: 20px 5%;
   background-color: #f8fafc;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Header tetap diam */
 .health-header {
   display: flex;
   align-items: center;
-  margin-bottom: 30px;
+  padding: 20px 5%;
   gap: 15px;
+  background-color: #f8fafc;
+  position: relative;
+  z-index: 10;
+}
+
+/* Wrapper konten dengan animasi */
+.health-content-wrapper {
+  padding: 0 5% 40px 5%;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .back-button {
@@ -34,8 +60,9 @@
   background: white;
   border-radius: 24px;
   padding: 30px;
+  width: 100%;
   max-width: 500px;
-  margin: 0 auto 20px;
+  margin: 0 auto;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
 }
 
@@ -59,6 +86,7 @@
 
 .field-group {
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .field-group label {
@@ -67,6 +95,7 @@
   font-weight: 600;
   margin-bottom: 8px;
   color: #334155;
+  text-align: left;
 }
 
 .field-group input {
@@ -78,10 +107,12 @@
   font-size: 15px;
   outline: none;
   transition: 0.2s;
+  display: block;
 }
 
 .field-group input:focus {
   border-color: #2d6a4f;
+  box-shadow: 0 0 0 3px rgba(45, 106, 79, 0.1);
 }
 
 .calculate-btn {
@@ -99,6 +130,11 @@
 
 .calculate-btn:hover {
   background: #1e4d38;
+}
+
+.calculate-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
 }
 
 .chart-container {
@@ -130,10 +166,14 @@
   margin-top: 15px;
 }
 
-.advice-list {
-  margin: 10px 0 0 18px;
+.advice-text {
+  margin: 10px 0 0 0;
   padding: 0;
   font-size: 14px;
   color: #475569;
   line-height: 1.6;
+}
+
+.result-animation-wrapper {
+  animation: fadeInUp 0.6s ease-out forwards;
 }

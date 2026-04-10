@@ -12,17 +12,21 @@ const FinancialHealth = () => {
   const [loading, setLoading] = useState(false);
   const [apiResponse, setApiResponse] = useState(null);
   const [data, setData] = useState({
-    income: 0,
-    expense: 0,
-    debt: 0,
+    income: '',
+    expense: '',
+    debt: '',
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: Number(e.target.value) });
+    setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleCalculate = async () => {
-    if (data.income <= 0) {
+    const incomeNum = Number(data.income);
+    const expenseNum = Number(data.expense);
+    const debtNum = Number(data.debt);
+
+    if (incomeNum <= 0) {
       alert('Mohon masukkan pendapatan yang valid');
       return;
     }
@@ -38,9 +42,9 @@ const FinancialHealth = () => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
-          monthly_income: data.income,
-          monthly_expenses: data.expense,
-          monthly_debt_payment: data.debt,
+          monthly_income: incomeNum,
+          monthly_expenses: expenseNum,
+          monthly_debt_payment: debtNum,
           total_debt: 0,
           emergency_fund: 0,
         }),
@@ -66,9 +70,12 @@ const FinancialHealth = () => {
     datasets: [
       {
         data: [
-          Math.max(0, data.income - data.expense - data.debt),
-          data.expense,
-          data.debt,
+          Math.max(
+            0,
+            Number(data.income) - Number(data.expense) - Number(data.debt),
+          ),
+          Number(data.expense) || 0,
+          Number(data.debt) || 0,
         ],
         backgroundColor: ['#10b981', '#3b82f6', '#ef4444'],
         borderWidth: 1,
@@ -78,6 +85,7 @@ const FinancialHealth = () => {
 
   return (
     <div className="financial-health-container">
+      {/* Header tetap statis */}
       <div className="health-header">
         <button
           className="back-button"
@@ -90,102 +98,108 @@ const FinancialHealth = () => {
         <h2>{showResult ? 'Hasil Analisis' : 'Financial Health Check'}</h2>
       </div>
 
-      {!showResult ? (
-        <div className="health-card">
-          <div className="health-main-info">
-            <div className="health-icon">💙</div>
-            <div>
-              <h4 style={{ margin: 0 }}>Cek Kesehatan Keuangan</h4>
-              <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>
-                Masukkan data bulanan Anda
-              </p>
+      {/* Konten Utama */}
+      <div className="health-content-wrapper">
+        {!showResult ? (
+          // Animasi saat input form muncul
+          <div className="health-card">
+            <div className="health-main-info">
+              <div className="health-icon">💙</div>
+              <div>
+                <h4 style={{ margin: 0 }}>Cek Kesehatan Keuangan</h4>
+                <p style={{ margin: 0, fontSize: '12px', color: '#64748b' }}>
+                  Masukkan data bulanan Anda
+                </p>
+              </div>
+            </div>
+
+            <div className="field-group">
+              <label>Pendapatan Bulanan (Rp)</label>
+              <input
+                type="number"
+                name="income"
+                value={data.income}
+                placeholder="Contoh: 8000000"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field-group">
+              <label>Pengeluaran Bulanan (Rp)</label>
+              <input
+                type="number"
+                name="expense"
+                value={data.expense}
+                placeholder="Contoh: 5000000"
+                onChange={handleChange}
+              />
+            </div>
+
+            <div className="field-group">
+              <label>Cicilan / Hutang (Rp)</label>
+              <input
+                type="number"
+                name="debt"
+                value={data.debt}
+                placeholder="Contoh: 1500000"
+                onChange={handleChange}
+              />
+            </div>
+
+            <button
+              className="calculate-btn"
+              onClick={handleCalculate}
+              disabled={loading}
+            >
+              {loading ? 'Memproses...' : 'Hitung Kondisi Keuangan'}
+            </button>
+          </div>
+        ) : (
+          // Animasi saat hasil analisis muncul (menggunakan wrapper yang sama agar transisi terasa baru)
+          <div className="result-animation-wrapper">
+            <div className="health-card">
+              <div className="chart-container">
+                <Pie data={chartData} />
+              </div>
+
+              <div className="result-score">
+                <p>Skor Kesehatan Finansial</p>
+                <h1>{apiResponse?.score}</h1>
+                <p style={{ fontSize: '14px', fontWeight: 'bold' }}>
+                  DTI Ratio: {apiResponse?.debt_to_income_ratio}%
+                </p>
+              </div>
+
+              <div
+                className="status-box"
+                style={{
+                  backgroundColor:
+                    apiResponse?.status === 'Sehat' ? '#dcfce7' : '#fee2e2',
+                  borderLeft: `5px solid ${apiResponse?.status === 'Sehat' ? '#2d6a4f' : '#b91c1c'}`,
+                }}
+              >
+                <strong
+                  style={{
+                    color:
+                      apiResponse?.status === 'Sehat' ? '#2d6a4f' : '#b91c1c',
+                  }}
+                >
+                  Status: {apiResponse?.status}
+                </strong>
+                <p className="advice-text">{apiResponse?.recommendation}</p>
+              </div>
+
+              <button
+                className="calculate-btn"
+                style={{ marginTop: '20px' }}
+                onClick={() => navigate('/consultation')}
+              >
+                Konsultasi dengan Ahli
+              </button>
             </div>
           </div>
-
-          <div className="field-group">
-            <label>Pendapatan Bulanan (Rp)</label>
-            <input
-              type="number"
-              name="income"
-              placeholder="Contoh: 8000000"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="field-group">
-            <label>Pengeluaran Bulanan (Rp)</label>
-            <input
-              type="number"
-              name="expense"
-              placeholder="Contoh: 5000000"
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="field-group">
-            <label>Cicilan / Hutang (Rp)</label>
-            <input
-              type="number"
-              name="debt"
-              placeholder="Contoh: 1500000"
-              onChange={handleChange}
-            />
-          </div>
-
-          <button
-            className="calculate-btn"
-            onClick={handleCalculate}
-            disabled={loading}
-          >
-            {loading ? 'Memproses...' : 'Hitung Kondisi Keuangan'}
-          </button>
-        </div>
-      ) : (
-        <div className="health-card">
-          <div className="chart-container">
-            <Pie data={chartData} />
-          </div>
-
-          <div className="result-score">
-            <p>Skor Kesehatan Finansial</p>
-            <h1>{apiResponse?.score}</h1>
-            <p style={{ fontSize: '14px', fontWeight: 'bold' }}>
-              DTI Ratio: {apiResponse?.debt_to_income_ratio}%
-            </p>
-          </div>
-
-          <div
-            className="status-box"
-            style={{
-              backgroundColor:
-                apiResponse?.status === 'Sehat' ? '#dcfce7' : '#fee2e2',
-              borderLeft: `5px solid ${apiResponse?.status === 'Sehat' ? '#2d6a4f' : '#b91c1c'}`,
-            }}
-          >
-            <strong
-              style={{
-                color: apiResponse?.status === 'Sehat' ? '#2d6a4f' : '#b91c1c',
-              }}
-            >
-              Status: {apiResponse?.status}
-            </strong>
-            <p
-              className="advice-text"
-              style={{ fontSize: '13px', marginTop: '5px' }}
-            >
-              {apiResponse?.recommendation}
-            </p>
-          </div>
-
-          <button
-            className="calculate-btn"
-            style={{ marginTop: '20px' }}
-            onClick={() => navigate('/consultation')}
-          >
-            Konsultasi dengan Ahli
-          </button>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };

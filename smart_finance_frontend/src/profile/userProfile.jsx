@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
 import './UserProfile.css';
 
 const UserProfile = () => {
@@ -9,7 +7,6 @@ const UserProfile = () => {
 
   const [userData, setUserData] = useState({
     name: 'Loading...',
-
     email: '...',
   });
 
@@ -19,17 +16,14 @@ const UserProfile = () => {
 
       if (!token) {
         navigate('/');
-
         return;
       }
 
       try {
         const response = await fetch('http://localhost:3000/api/dashboard', {
           method: 'GET',
-
           headers: {
             Authorization: `Bearer ${token}`,
-
             'Content-Type': 'application/json',
           },
         });
@@ -39,7 +33,6 @@ const UserProfile = () => {
         if (response.ok) {
           setUserData({
             name: result.user?.name || 'User',
-
             email: result.user?.email || 'user@mail.com',
           });
         }
@@ -53,37 +46,36 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     localStorage.removeItem('token');
-
     navigate('/');
   };
 
   return (
     <div className="profile-container">
+      {/* Header tetap statis agar Mbudi nyaman saat membuka halaman */}
       <div className="health-header">
         <button className="back-button" onClick={() => navigate('/dashboard')}>
           ←
         </button>
-
         <h2>Profil Saya</h2>
       </div>
 
-      <div className="user-info-card">
-        <div className="profile-img">
-          <span className="profile-initial">{userData.name.charAt(0)}</span>
+      {/* Bagian bawah ini akan meluncur naik dengan lembut saat halaman dimuat */}
+      <div className="animate-content">
+        <div className="user-info-card">
+          <div className="profile-img">
+            <span className="profile-initial">{userData.name.charAt(0)}</span>
+          </div>
+          <h3 style={{ margin: 0 }}>{userData.name}</h3>
+          <p style={{ color: '#64748b', fontSize: '14px', marginTop: '5px' }}>
+            {userData.email}
+          </p>
         </div>
 
-        <h3 style={{ margin: 0 }}>{userData.name}</h3>
-
-        <p style={{ color: '#64748b', fontSize: '14px' }}>{userData.email}</p>
-
-        <p style={{ color: '#64748b', fontSize: '14px' }}>
-          {userData.password}
-        </p>
-      </div>
-
-      <div className="menu-list">
-        <div className="menu-item logout-item" onClick={handleLogout}>
-          <span>🚪 Logout</span> <span>›</span>
+        <div className="menu-list">
+          <div className="menu-item logout-item" onClick={handleLogout}>
+            <span>🚪 Logout</span>
+            <span style={{ color: '#64748b' }}>›</span>
+          </div>
         </div>
       </div>
     </div>

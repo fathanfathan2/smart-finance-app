@@ -1,15 +1,41 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
 .consultation-container {
-  padding: 20px 5%;
   background-color: #f8fafc;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Header tetap statis */
 .consultation-header {
   display: flex;
   align-items: center;
+  padding: 20px 5%;
   gap: 15px;
-  margin-bottom: 25px;
+  background-color: #f8fafc;
+  position: relative;
+  z-index: 10;
+}
+
+/* Wrapper konten dengan animasi */
+.consultation-content-wrapper {
+  padding: 0 5% 40px 5%;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .back-btn-circle {
@@ -42,7 +68,6 @@
   font-size: 15px;
   outline: none;
   transition: 0.3s;
-  box-sizing: border-box;
 }
 
 .search-input:focus {

@@ -75,7 +75,7 @@ function Dashboard() {
 
 function Header({ name }) {
   return (
-    <div className="db-header">
+    <header className="db-header">
       <div className="db-header-info">
         <h2 className="db-welcome-title">Halo, {name}</h2>
         <p className="db-welcome-subtitle">Selamat datang kembali!</p>
@@ -85,7 +85,7 @@ function Header({ name }) {
           <img src={accountIcon} className="db-profile-img" alt="Profile" />
         </Link>
       </div>
-    </div>
+    </header>
   );
 }
 

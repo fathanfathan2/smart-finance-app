@@ -67,6 +67,7 @@ const BookingConsultation = () => {
 
   return (
     <div className="booking-container">
+      {/* Header Statis */}
       <div className="booking-header">
         <button
           className="back-btn-circle"
@@ -77,59 +78,64 @@ const BookingConsultation = () => {
         <h2>Jadwal Konsultasi</h2>
       </div>
 
-      <div className="booking-card">
-        <div className="consultant-preview">
-          <div className="preview-avatar">{consultantName.charAt(0)}</div>
-          <div>
-            <h3>{consultantName}</h3>
-            <p>Spesialis Keuangan</p>
+      {/* Konten dengan Animasi */}
+      <div className="booking-content-wrapper">
+        <div className="booking-card">
+          <div className="consultant-preview">
+            <div className="preview-avatar">{consultantName.charAt(0)}</div>
+            <div>
+              <h3>{consultantName}</h3>
+              <p style={{ margin: 0, fontSize: '14px', color: '#64748b' }}>
+                Spesialis Keuangan
+              </p>
+            </div>
           </div>
-        </div>
 
-        <div className="booking-section">
-          <label>Pilih Tanggal</label>
-          <input
-            type="date"
-            className="date-input"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
-        </div>
-
-        <div className="booking-section">
-          <label>Pilih Waktu</label>
-          <div className="time-grid">
-            {timeSlots.map((time) => (
-              <button
-                key={time}
-                type="button"
-                className={`time-btn ${selectedTime === time ? 'active' : ''}`}
-                onClick={() => setSelectedTime(time)}
-              >
-                {time}
-              </button>
-            ))}
+          <div className="booking-section">
+            <label>Pilih Tanggal</label>
+            <input
+              type="date"
+              className="date-input"
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.target.value)}
+            />
           </div>
-        </div>
 
-        <div className="booking-summary">
-          <div className="summary-row">
-            <span>Biaya Sesi (60 Menit)</span>
-            <span>Rp 150.000</span>
+          <div className="booking-section">
+            <label>Pilih Waktu</label>
+            <div className="time-grid">
+              {timeSlots.map((time) => (
+                <button
+                  key={time}
+                  type="button"
+                  className={`time-btn ${selectedTime === time ? 'active' : ''}`}
+                  onClick={() => setSelectedTime(time)}
+                >
+                  {time}
+                </button>
+              ))}
+            </div>
           </div>
-          <div className="summary-row total">
-            <span>Total Pembayaran</span>
-            <span>Rp 150.000</span>
-          </div>
-        </div>
 
-        <button
-          className="confirm-btn"
-          onClick={handleConfirm}
-          disabled={loading}
-        >
-          {loading ? 'Memproses...' : 'Konfirmasi & Bayar'}
-        </button>
+          <div className="booking-summary">
+            <div className="summary-row">
+              <span>Biaya Sesi (60 Menit)</span>
+              <span>Rp 150.000</span>
+            </div>
+            <div className="summary-row total">
+              <span>Total Pembayaran</span>
+              <span>Rp 150.000</span>
+            </div>
+          </div>
+
+          <button
+            className="confirm-btn"
+            onClick={handleConfirm}
+            disabled={loading}
+          >
+            {loading ? 'Memproses...' : 'Konfirmasi & Bayar'}
+          </button>
+        </div>
       </div>
     </div>
   );

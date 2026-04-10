@@ -1,15 +1,37 @@
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .education-container {
-  padding: 20px;
   background-color: #f8fafc;
   min-height: 100vh;
   font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
 }
 
+/* Header tetap statis/tidak bergerak */
 .education-header {
   display: flex;
   align-items: center;
   gap: 15px;
-  margin-bottom: 20px;
+  padding: 20px;
+  background-color: #f8fafc;
+  position: relative;
+  z-index: 10;
+}
+
+/* Bungkus konten yang ingin diberi animasi */
+.education-content-wrapper {
+  padding: 0 20px 20px 20px;
+  animation: fadeInUp 0.8s ease-out forwards;
 }
 
 .back-btn-circle {
