@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './dashboard.css';
 
-import rect5 from '../assets/Rectangle5.png';
-import rect6 from '../assets/Rectangle6.png';
-import rect8 from '../assets/Rectangle8.png';
+import rect5 from '../assets/edukasiFinancial.png';
+import rect6 from '../assets/financialCheck.png';
+import rect8 from '../assets/konsultasiKeuangan.png';
 import accountIcon from '../assets/account.png';
 
 function Dashboard() {
