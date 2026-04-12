@@ -9,7 +9,7 @@ Sebelum menjalankan aplikasi, pastikan Anda telah menginstal Node.js (Versi 16 a
 Jalankan XAMPP Control Panel dan aktifkan modul Apache serta MySQL.
 Buka browser dan akses http://localhost/phpmyadmin.
 Buat database baru dengan nama smart_finance.
-Buat tabel consultants, users, dan bookings sesuai dengan struktur yang telah ditentukan.
+Import file smart_finance.sql yang tersedia di root folder untuk membuat tabel consultants, users, dan bookings secara otomatis.
 
 2. Konfigurasi Backend
 Masuk ke folder backend: cd backend
