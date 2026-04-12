@@ -5,32 +5,34 @@ Smart Finance adalah aplikasi berbasis web yang dirancang untuk membantu penggun
 
 Petunjuk Setup Environment
 Sebelum menjalankan aplikasi, pastikan Anda telah menginstal Node.js (Versi 16 atau terbaru), XAMPP, dan Git.
-1. Persiapan Database
-Jalankan XAMPP Control Panel dan aktifkan modul Apache serta MySQL.
-Buka browser dan akses http://localhost/phpmyadmin.
-Buat database baru dengan nama smart_finance.
-Import file smart_finance.sql yang tersedia di root folder untuk membuat tabel consultants, users, dan bookings secara otomatis.
+Persiapan Database
+1. Jalankan XAMPP Control Panel dan aktifkan modul Apache serta MySQL.
+2. Buka browser dan akses http://localhost/phpmyadmin.
+3. Buat database baru dengan nama smart_finance.
+4. Import file smart_finance.sql yang tersedia di root folder untuk membuat tabel secara otomatis.
 
-2. Konfigurasi Backend
-Masuk ke folder backend: cd backend
-Instal semua library yang dibutuhkan: npm install
-Sesuaikan konfigurasi database pada file config/database.js (pastikan user dan nama database sudah benar).
+Konfigurasi Backend
+1. Masuk ke folder backend: cd smart_finance_backend
+2. Instal semua library: npm install
+3. Salin file .env.example menjadi .env dan sesuaikan konfigurasi database Anda.
 
-3. Konfigurasi Frontend
-Masuk ke folder frontend: cd frontend
-Instal semua library yang dibutuhkan: npm install
+Konfigurasi Frontend
+1. Masuk ke folder frontend: cd smart_finance_frontend
+2. Instal semua library: npm install
+3. Salin file .env.example menjadi .env.
 
 Tautan Model ML
 Proyek ini merupakan aplikasi manajemen data keuangan berbasis Full-Stack Web dan tidak menggunakan model Machine Learning.
 
 Cara Menjalankan Aplikasi
-Anda harus menjalankan dua terminal secara bersamaan untuk menjalankan aplikasi ini:
-1. Menjalankan Server (Backend)
+Anda harus menjalankan dua terminal secara bersamaan:
+
+Menjalankan Server (Backend)
 Buka terminal baru, masuk ke folder backend, lalu jalankan:
 npm run dev
 Server akan berjalan di: http://localhost:3000
 
-2. Menjalankan Website (Frontend)
+Menjalankan Website (Frontend)
 Buka terminal satu lagi, masuk ke folder frontend, lalu jalankan:
 npm run dev
 Aplikasi dapat diakses melalui browser di: http://localhost:5173
